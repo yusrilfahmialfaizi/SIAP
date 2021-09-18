@@ -1,4 +1,4 @@
-@extends('parts.main.master')
+@extends('parts.main.master_hrd')
 @section('content')
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -12,7 +12,7 @@
                                 <div class="card-block">
                                     <div class="row align-items-center">
                                         <div class="col-8">
-                                            <h4 class="text-c-yellow f-w-600">{{$hadir}}</h4>
+                                            <h4 class="text-c-yellow f-w-600"></h4>
                                             <h6 class="text-muted m-b-0">Hadir</h6>
                                         </div>
                                         <div class="col-4 text-right">

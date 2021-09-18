@@ -1,4 +1,4 @@
-                    @extends('parts.main.master')
+                    @extends('parts.main.master_manager')
                     @section('content')
                     <div class="pcoded-content">
                         <div class="pcoded-inner-content">

@@ -14,11 +14,62 @@ class IzinController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'HRD' ) {
+            # code...
+            return redirect('/dashboard-hrd');
+        }elseif ($request->session()->get('divisi') == 'Manager' ) {
+            # code...
+            return redirect('/dashboard-manager');
+        };
         $izin   = Izin::all();
         return view('contents/main/karyawan/riwayat_izin', compact('izin'));
+    }
+    public function izin_manager(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'HRD' ) {
+            # code...
+            return redirect('/dashboard-hrd');
+        }elseif ($request->session()->get('divisi') == 'Karyawan' ) {
+            # code...
+            return redirect('/dashboard-karyawan');
+        };
+        $izin   = Izin::all();
+        return view('contents/main/manager/riwayat_izin', compact('izin'));
+    }
+    public function izin_hrd(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'Manager' ) {
+            # code...
+            return redirect('/dashboard-manager');
+        }elseif ($request->session()->get('divisi') == 'Karyawan' ) {
+            # code...
+            return redirect('/dashboard-karyawan');
+        };
+        $izin   = Izin::all();
+        return view('contents/main/hrd/riwayat_izin', compact('izin'));
+    }
+
+    public function terima(Request $request, $id){
+        $model = Izin::find($id);
+        $model->id              = $request->id;
+        $model->status          = 'Diterima';
+        $model->save();
+        return response()->json([
+            'message'   => 'sukses'
+        ]);
+    }
+    public function tolak(Request $request){
+        $model->id              = $request->id;
+        $model->status          = 'Ditolak';
+        // $model->save();
+        return response()->json([
+            'message'   => 'sukses'
+        ]);
     }
 
     /**
@@ -26,9 +77,16 @@ class IzinController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'HRD' ) {
+            # code...
+            return redirect('/dashboard-hrd');
+        }elseif ($request->session()->get('divisi') == 'Manager' ) {
+            # code...
+            return redirect('/dashboard-manager');
+        };
         $absensi = Absensi::where('nik', Session::get('nik'))->where('jam_masuk', null)->where('jam_pulang', null)->latest('created_at')->first();
         return view('contents/main/karyawan/pengajuan_izin', compact('absensi'));
     }
@@ -100,6 +158,10 @@ class IzinController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $model                  = Izin::find($id);
+        $model->status          = $request->status;
+        $model->save();
+        return  redirect('izin-manager');
     }
 
     /**

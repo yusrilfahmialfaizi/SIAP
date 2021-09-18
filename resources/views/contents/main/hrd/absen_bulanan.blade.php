@@ -1,4 +1,4 @@
-@extends('parts.main.master')
+@extends('parts.main.master_hrd')
 @section('content')
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -14,7 +14,7 @@
                                     <span></span>
                                 </div>
                                 <div class="card-block">
-                                    <form method="GET" action="{{ route('absensi-bulanan.filter')}}"accept-charset="UTF-8">
+                                    <form method="GET" action="{{ route('absensi-bulanan-hrd.filter')}}"accept-charset="UTF-8">
                                         {{ csrf_field() }}
                                         <div class="form-group row">
                                             <label class="col-sm-1 col-form-label">Bulan</label>
@@ -53,6 +53,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>No.</th>
+                                                    <th>Nama</th>
                                                     <th>Tanggal</th>
                                                     <th>Jam Masuk</th>
                                                     <th>Jam Pulang</th>
@@ -68,6 +69,7 @@
                                                 @foreach($record as $data)
                                                 <tr>
                                                     <td>{{$n++}}</td>
+                                                    <td>{{$data->nama}}</td>
                                                     <td>{{date("d M Y",strtotime($data->tanggal))}}</td>
                                                     @if ((date("H:i:s",strtotime($data->jam_masuk)) > date("H:i:s", strtotime($batas_masuk))))
                                                     <td>Absen invalid</td>
@@ -93,6 +95,7 @@
                                             <tfoot>
                                                 <tr>
                                                     <th>No.</th>
+                                                    <th>Nama</th>
                                                     <th>Tanggal</th>
                                                     <th>Jam Masuk</th>
                                                     <th>Jam Pulang</th>

@@ -117,7 +117,7 @@
 
     function auto_absent() {
       var today         = new Date();
-      var batas_hari    = "18:35:00";
+      var batas_hari    = "23:59:59";
       var curr_hour     = today.getHours();
       var curr_minute   = today.getMinutes();
       var curr_second   = today.getSeconds();

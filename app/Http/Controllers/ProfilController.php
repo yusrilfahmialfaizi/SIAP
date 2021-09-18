@@ -14,9 +14,16 @@ class ProfilController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        //
+    public function index(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'HRD' ) {
+            # code...
+            return redirect('/dashboard-hrd');
+        }elseif ($request->session()->get('divisi') == 'Manager' ) {
+            # code...
+            return redirect('/dashboard-manager');
+        };
         $data['data']   = Users::find(Session::get('nik'));
         return view('contents/main/karyawan/profile', $data);
     }

@@ -1,4 +1,4 @@
-@extends('parts.main.master')
+@extends('parts.main.master_manager')
 @section('content')
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
@@ -7,51 +7,6 @@
 
                 <div class="page-body">
                     <div class="row">
-                        @if ($record->isEmpty())
-                        <!-- ANGLE OFFSET AND ARC start -->
-                        <div class="col-lg-6 col-xl-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    {{-- <h5>Notifikasi</h5> --}}
-                                    <span></span>
-                                </div>
-                                <div class="card-block text-center">
-                                    <Center>
-                                        {{-- <form method="POST" action="/absen_masuk"accept-charset="UTF-8">
-                                            {{ csrf_field() }} --}}
-                                            <p>Hai, {{Session::get('nama')}} anda hari ini belum absen masuk. <br> Silahkan absen pada tombol absen berikut</p>
-                                            <br>
-                                            <button class="btn btn-primary" id="submit_masuk">Absen Masuk</button>
-                                        {{-- </form> --}}
-                                    </Center>
-                                </div>
-                            </div>
-                        </div>
-                        @else
-                        @foreach ($record as $item)
-                        @if (!$item->jam_masuk == null && $item->jam_pulang == null)
-                        <div class="col-lg-6 col-xl-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    {{-- <h5>Notifikasi</h5> --}}
-                                    <span></span>
-                                </div>
-                                <div class="card-block text-center">
-                                    <Center>
-                                        {{-- <form method="POST" action="{{url('absensi/'.$item->id)}}"accept-charset="UTF-8">
-                                            {{ csrf_field() }} --}}
-                                            <p>Hai, {{Session::get('nama')}} anda hari ini belum absen pulang. <br> Silahkan absen pada tombol absen berikut</p>
-                                            <br>
-                                            <input type="hidden" name="_method" id="_method" class="form-control" value="PATCH" required>
-                                            <button class="btn btn-primary" id="submit_pulang" data-url="{{url('absensi/'.$item->id)}}">Absen Pulang</button>
-                                        {{-- </form> --}}
-                                    </Center>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
-                        @endforeach                         
-                        @endif
                         <div class="col-lg-12 col-xl-12">
                             <div class="card">
                                 <div class="card-header">
@@ -65,6 +20,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>No.</th>
+                                                    <th>Nama</th>
                                                     <th>Tanggal</th>
                                                     <th>Jam Masuk</th>
                                                     <th>Jam Pulang</th>
@@ -81,6 +37,7 @@
                                                 @foreach($record as $data)
                                                 <tr>
                                                     <td>{{$n++}}</td>
+                                                    <td>{{$data->nama}}</td>
                                                     <td>{{$data->tanggal}}</td>
                                                     @if ((date("H:i:s",strtotime($data->jam_masuk)) > date("H:i:s", strtotime($batas_masuk))))
                                                     <td>Absen invalid</td>
@@ -140,6 +97,7 @@
                                             <tfoot>
                                                 <tr>
                                                     <th>No.</th>
+                                                    <th>Nama</th>
                                                     <th>Tanggal</th>
                                                     <th>Jam Masuk</th>
                                                     <th>Jam Pulang</th>

@@ -16,14 +16,30 @@ class AbsensiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'HRD' ) {
+            # code...
+            return redirect('/dashboard-hrd');
+        }elseif ($request->session()->get('divisi') == 'Manager' ) {
+            # code...
+            return redirect('/dashboard-manager');
+        };
         $data['record'] = Absensi::where('nik', Session::get('nik'))->whereDate('created_at', DB::raw('CURDATE()'))->get();
         return view('contents/main/karyawan/absen_hari_ini', $data);
     }
 
     public function bulanan(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'HRD' ) {
+            # code...
+            return redirect('/dashboard-hrd');
+        }elseif ($request->session()->get('divisi') == 'Manager' ) {
+            # code...
+            return redirect('/dashboard-manager');
+        };
         $record         = $request->bulan ? 
                 Absensi::where('nik', Session::get('nik'))
                 ->whereYear('created_at', '=', $request->tahun)
@@ -33,6 +49,81 @@ class AbsensiController extends Controller
                 ->get();
         $tahun          = Absensi::distinct()->get(['tanggal']);
         return view('contents/main/karyawan/absen_bulanan', compact('record', 'tahun'));
+    }
+    public function absensiHariIni_manager(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'HRD' ) {
+            # code...
+            return redirect('/dashboard-hrd');
+        }elseif ($request->session()->get('divisi') == 'Karyawan' ) {
+            # code...
+            return redirect('/dashboard-karyawan');
+        };
+        $data['record'] = Absensi::join('users', 'users.nik', '=', 'absensi.nik')
+            ->select('users.nama', 'absensi.*')
+            ->whereDate('absensi.created_at', DB::raw('CURDATE()'))
+            ->get();
+        return view('contents/main/manager/absen_hari_ini', $data);
+    }
+    public function absensiHariIni_hrd(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'Manager' ) {
+            # code...
+            return redirect('/dashboard-manager');
+        }elseif ($request->session()->get('divisi') == 'Karyawan' ) {
+            # code...
+            return redirect('/dashboard-karyawan');
+        };
+        $data['record'] = Absensi::join('users', 'users.nik', '=', 'absensi.nik')
+            ->select('users.nama', 'absensi.*')
+            ->whereDate('absensi.created_at', DB::raw('CURDATE()'))
+            ->get();
+        return view('contents/main/hrd/absen_hari_ini', $data);
+    }
+
+    public function absensiBulanan_manager(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'HRD' ) {
+            # code...
+            return redirect('/dashboard-hrd');
+        }elseif ($request->session()->get('divisi') == 'Karyawan' ) {
+            # code...
+            return redirect('/dashboard-karyawan');
+        };
+        $record         = $request->bulan ? 
+                            Absensi::join('users', 'users.nik', '=', 'absensi.nik')
+                            ->select('users.nama', 'absensi.*')
+                            ->whereYear('absensi.created_at', '=', $request->tahun)
+                            ->whereMonth('absensi.created_at', '=', $request->bulan)
+                            ->get() : 
+                            Absensi::join('users', 'users.nik', '=', 'absensi.nik')
+                            ->select('users.nama', 'absensi.*')->get();
+        $tahun          = Absensi::distinct()->get(['tanggal']);
+        return view('contents/main/manager/absen_bulanan', compact('record', 'tahun'));
+    }
+    public function absensiBulanan_hrd(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'Manager' ) {
+            # code...
+            return redirect('/dashboard-manager');
+        }elseif ($request->session()->get('divisi') == 'Karyawan' ) {
+            # code...
+            return redirect('/dashboard-karyawan');
+        };
+        $record         = $request->bulan ? 
+                            Absensi::join('users', 'users.nik', '=', 'absensi.nik')
+                            ->select('users.nama', 'absensi.*')
+                            ->whereYear('absensi.created_at', '=', $request->tahun)
+                            ->whereMonth('absensi.created_at', '=', $request->bulan)
+                            ->get() : 
+                            Absensi::join('users', 'users.nik', '=', 'absensi.nik')
+                            ->select('users.nama', 'absensi.*')->get();
+        $tahun          = Absensi::distinct()->get(['tanggal']);
+        return view('contents/main/hrd/absen_bulanan', compact('record', 'tahun'));
     }
 
     public function masuk(){
@@ -63,12 +154,14 @@ class AbsensiController extends Controller
         date_default_timezone_set('Asia/Jakarta');
         $users          = Users::all();
         foreach ($users as $value) {
-            $result     = Absensi::where('nik',$value->nik)->whereDate('created_at', DB::raw('CURDATE()'))->first();
-            if (!$result) {
-                $model          = new Absensi;
-                $model->nik     = $value->nik;
-                $model->tanggal = date("Y-m-d");
-                $model->save();
+            if ($value->divisi != "Manager" && $value->divisi != "HRD") {
+                $result     = Absensi::where('nik',$value->nik)->whereDate('created_at', DB::raw('CURDATE()'))->first();
+                if (!$result) {
+                    $model          = new Absensi;
+                    $model->nik     = $value->nik;
+                    $model->tanggal = date("Y-m-d");
+                    $model->save();
+                }
             }
         }
         return response()->json([

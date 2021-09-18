@@ -20,13 +20,44 @@ class DashboardController extends Controller
         //
     }
 
-    public function dashboard_karyawan(){
+    public function dashboard_karyawan(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'HRD' ) {
+            # code...
+            return redirect('/dashboard-hrd');
+        }elseif ($request->session()->get('divisi') == 'Manager' ) {
+            # code...
+            return redirect('/dashboard-manager');
+        };
+        $data['hadir'] = Absensi::where('nik', Session::get('nik'))->where('jam_masuk', "!=", null)->where('jam_pulang', '!=', null)->count();
+        // $data['sakit'] =
+        return view('contents/main/karyawan/dashboard', $data);
+    }
 
-    
-        return view('contents/main/karyawan/dashboard');
-        // $ip = '125.166.117.206'; /* Static IP address */
-        // $details = GeoLocation::lookup($ip);
-        // \dd($details);
+    public function dashboard_manager(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'HRD' ) {
+            # code...
+            return redirect('/dashboard-hrd');
+        }elseif ($request->session()->get('divisi') == 'Karyawan' ) {
+            # code...
+            return redirect('/dashboard-karyawan');
+        };
+        return view('contents/main/manager/dashboard');
+    }
+    public function dashboard_hrd(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'Manager' ) {
+            # code...
+            return redirect('/dashboard-manager');
+        }elseif ($request->session()->get('divisi') == 'Karyawan' ) {
+            # code...
+            return redirect('/dashboard-karyawan');
+        };
+        return view('contents/main/hrd/dashboard');
     }
 
     /**

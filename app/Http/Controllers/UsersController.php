@@ -13,11 +13,32 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }
+        else if ($request->session()->get('divisi') == 'Karyawan' ) {
+            # code...
+            return redirect('/dashboard-karyawan');
+        }else if ($request->session()->get('divisi') == 'HRD' ) {
+            # code...
+            return redirect('/dashboard-hrd');
+        };
         $data['dataset'] = Users::all();
         return view('contents/main/manager/data_karyawan', $data);
+    }
+    public function data_karyawan_hrd(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'Manager' ) {
+            # code...
+            return redirect('/dashboard-manager');
+        }elseif ($request->session()->get('divisi') == 'Karyawan' ) {
+            # code...
+            return redirect('/dashboard-karyawan');
+        };
+        $data['dataset'] = Users::all();
+        return view('contents/main/hrd/data_karyawan', $data);
     }
 
     function ajax_cek(Request $request){
