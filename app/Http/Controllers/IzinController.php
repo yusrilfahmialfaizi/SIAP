@@ -123,7 +123,6 @@ class IzinController extends Controller
         $model->status              = 'Diajukan';
         $model->save();
         return redirect('izin');
-        // echo "<pre>";print_r($model);echo"</pre>";
     }
 
     /**

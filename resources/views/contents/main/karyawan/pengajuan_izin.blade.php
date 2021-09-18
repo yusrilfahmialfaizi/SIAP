@@ -10,6 +10,18 @@
                         <div class="col-lg-12 col-xl-12">
                             <div class="card">
                                 <div class="card-header">
+                                    <h5>!Note :</h5>
+                                    <span></span>
+                                </div>
+                                <div class="card-block">
+                                    <p> - Apabila karyawan sedang sakit,izin sakit bisa diinputkan maksimal H+3 sejak tanggal ketidakhadiran karyawan. </p>
+                                    <p> - Apabila karyawan ingin mengajukan cuti, karyawan dapat menginputkan izin cuti maksimal H-1 dari rencana ketidakhadiran karyawan. </p><br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="card">
+                                <div class="card-header">
                                     <h5>Pengajuan Izin</h5>
                                     <span></span>
                                 </div>
@@ -37,10 +49,15 @@
                                             <label class="col-sm-2 col-form-label">Mulai Ketidakhadiran</label>
                                             @php
                                                 date_default_timezone_set('Asia/Jakarta');
-                                                $tgl        = date('Y-m-d', strtotime($absensi->tanggal));
-                                                $min_sakit  = date('Y-m-d', strtotime($absensi->tanggal));
-                                                $max_sakit  = date('Y-m-d', strtotime('+3 days',strtotime($absensi->tanggal)));
-                                                $min_cuti   = date('Y-m-d', strtotime('+1 days',strtotime($absensi->tanggal)));
+                                                if ($absensi != null){
+                                                    $tanggal    = $absensi->tanggal;
+                                                }else{
+                                                    $tanggal = date('Y-m-d');
+                                                }
+                                                $tgl        = date('Y-m-d', strtotime($tanggal));
+                                                $min_sakit  = date('Y-m-d', strtotime($tanggal));
+                                                $max_sakit  = date('Y-m-d', strtotime('+3 days',strtotime($tanggal)));
+                                                $min_cuti   = date('Y-m-d', strtotime('+1 days',strtotime($tanggal)));
                                             @endphp
                                             <div class="col-sm-10">
                                                 <input type="date" class="form-control" id="mulai_tidakhadir_sakit" name="mulai_tidakhadir_sakit" max="{{$max_sakit}}">
