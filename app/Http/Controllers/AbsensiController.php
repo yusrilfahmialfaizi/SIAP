@@ -26,6 +26,7 @@ class AbsensiController extends Controller
         date_default_timezone_set('Asia/Jakarta');
         $ip                     = '125.166.117.206'; /* Static IP address */
         // $ip                 = $_SERVER['REMOTE_ADDR']; /* Dynamic IP address */
+        $batas_absen            = '09:00:00';
         $details                = GeoLocation::lookup($ip);
         $model                  = new Absensi;
         $model->nik             = Session::get('nik');
@@ -34,7 +35,15 @@ class AbsensiController extends Controller
         $model->longtd_masuk    = $details->getLongitude();
         $model->latd_masuk      = $details->getLatitude();
         $model->save();
-        return redirect('absensi');
+        if ((date("H:i:s") >= date("H:i:s", strtotime($batas_absen)))) {
+            return response()->json([
+                'message'   => 'invalid'
+            ]);
+        }else{
+            return response()->json([
+                'message'   => 'sukses'
+            ]);
+        }
     }
 
     /**
@@ -94,14 +103,24 @@ class AbsensiController extends Controller
         $ip                     = '125.166.117.206'; /* Static IP address */
         // $ip                 = $_SERVER['REMOTE_ADDR']; /* Dynamic IP address */
         $details                = GeoLocation::lookup($ip);
+        $batas_absen            = "17:00:00";
         $model                  = Absensi::find($id);
         $model->nik             = Session::get('nik');
         $model->tanggal         = date("Y-m-d");
-        $model->jam_pulang       = date("H:i:s");
-        $model->longtd_pulang    = $details->getLongitude();
-        $model->latd_pulang      = $details->getLatitude();
+        $model->jam_pulang      = date("H:i:s");
+        $model->longtd_pulang   = $details->getLongitude();
+        $model->latd_pulang     = $details->getLatitude();
         $model->save();
-        return redirect('absensi');
+        if ((date("H:i:s") <= date("H:i:s", strtotime($batas_absen)))) {
+            return response()->json([
+                'message'   => 'invalid'
+            ]);
+        }else{
+            return response()->json([
+                'message'   => 'sukses'
+            ]);
+        }
+        // return redirect('absensi');
     }
 
     /**

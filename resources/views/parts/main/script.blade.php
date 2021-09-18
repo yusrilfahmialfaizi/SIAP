@@ -15,7 +15,7 @@
 <script src="{{asset('assets\assets\pages\widget\amchart\serial.js')}}"></script>
 <script src="{{asset('assets\assets\pages\widget\amchart\light.js')}}"></script>
 <script src="{{asset('assets\assets\js\jquery.mCustomScrollbar.concat.min.js')}}"></script>
-{{-- <script type="text/javascript" src="{{asset('assets\assets\js\SmoothScroll.js')}}"></script> --}}
+<script type="text/javascript" src="{{asset('assets\assets\js\SmoothScroll.js')}}"></script>
 <script src="{{asset('assets\assets\js\pcoded.min.js')}}"></script>
 
 <!-- knob js -->
