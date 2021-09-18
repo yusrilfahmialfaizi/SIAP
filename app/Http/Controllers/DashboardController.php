@@ -6,6 +6,8 @@ use Adrianorosa\GeoLocation\GeoLocation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Absensi;
+use App\Models\Users;
+use App\Models\Izin;
 use Session;
 
 class DashboardController extends Controller
@@ -30,9 +32,8 @@ class DashboardController extends Controller
             # code...
             return redirect('/dashboard-manager');
         };
-        $data['hadir'] = Absensi::where('nik', Session::get('nik'))->where('jam_masuk', "!=", null)->where('jam_pulang', '!=', null)->count();
-        // $data['sakit'] =
-        return view('contents/main/karyawan/dashboard', $data);
+        
+        return view('contents/main/karyawan/dashboard');
     }
 
     public function dashboard_manager(Request $request){
@@ -45,7 +46,35 @@ class DashboardController extends Controller
             # code...
             return redirect('/dashboard-karyawan');
         };
-        return view('contents/main/manager/dashboard');
+        $data['user']   = Users::all()->count();
+        $data['hadir']  = Absensi::where('nik', Session::get('nik'))
+                            ->where('jam_masuk', "!=", null)
+                            ->where('jam_pulang', '!=', null)
+                            ->whereDate('absensi.created_at', DB::raw('CURDATE()'))
+                            ->count();
+        date_default_timezone_set('Asia/Jakarta');
+        $users          = Users::all();
+        $hasil = 0;
+        foreach ($users as $value) {
+            if ($value->divisi != "Manager" && $value->divisi != "HRD") {
+                $result     = Izin::where('nik',$value->nik)->get();
+                foreach ($result as $key) {
+                    if ($key->status == 'Diterima') {
+                        $count = Izin::where('nik',$value->nik)
+                                ->where('tgl_mulai', '<=', date('Y-m-d'))
+                                ->where('tgl_selesai', '>=', date('Y-m-d'))->count();
+                                $hasil = $hasil + $count;
+                    }
+                }
+            }
+        }
+        $data['izin']   = $hasil;
+        $data['alfa']   = Absensi::where('nik', Session::get('nik'))
+                            ->where('jam_masuk', "==", null)
+                            ->where('jam_pulang', '==', null)
+                            ->whereDate('absensi.created_at', DB::raw('CURDATE()'))
+                            ->count();
+        return view('contents/main/manager/dashboard', $data);
     }
     public function dashboard_hrd(Request $request){
         if ($request->session()->get('status') != 'login' ){
@@ -57,7 +86,35 @@ class DashboardController extends Controller
             # code...
             return redirect('/dashboard-karyawan');
         };
-        return view('contents/main/hrd/dashboard');
+        $data['user']   = Users::all()->count();
+        $data['hadir']  = Absensi::where('nik', Session::get('nik'))
+                            ->where('jam_masuk', "!=", null)
+                            ->where('jam_pulang', '!=', null)
+                            ->whereDate('absensi.created_at', DB::raw('CURDATE()'))
+                            ->count();
+        date_default_timezone_set('Asia/Jakarta');
+        $users          = Users::all();
+        $hasil = 0;
+        foreach ($users as $value) {
+            if ($value->divisi != "Manager" && $value->divisi != "HRD") {
+                $result     = Izin::where('nik',$value->nik)->get();
+                foreach ($result as $key) {
+                    if ($key->status == 'Diterima') {
+                        $count = Izin::where('nik',$value->nik)
+                                ->where('tgl_mulai', '<=', date('Y-m-d'))
+                                ->where('tgl_selesai', '>=', date('Y-m-d'))->count();
+                                $hasil = $hasil + $count;
+                    }
+                }
+            }
+        }
+        $data['izin']   = $hasil;
+        $data['alfa']   = Absensi::where('nik', Session::get('nik'))
+                            ->where('jam_masuk', "==", null)
+                            ->where('jam_pulang', '==', null)
+                            ->whereDate('absensi.created_at', DB::raw('CURDATE()'))
+                            ->count();
+        return view('contents/main/hrd/dashboard', $data);
     }
 
     /**

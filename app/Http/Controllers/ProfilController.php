@@ -27,6 +27,32 @@ class ProfilController extends Controller
         $data['data']   = Users::find(Session::get('nik'));
         return view('contents/main/karyawan/profile', $data);
     }
+    public function profil_hrd(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'Manager' ) {
+            # code...
+            return redirect('/dashboard-manager');
+        }elseif ($request->session()->get('divisi') == 'Karyawan' ) {
+            # code...
+            return redirect('/dashboard-karyawan');
+        };
+        $data['data']   = Users::find(Session::get('nik'));
+        return view('contents/main/hrd/profile', $data);
+    }
+    public function profil_manager(Request $request){
+        if ($request->session()->get('status') != 'login' ){
+            return redirect('/');
+        }else if ($request->session()->get('divisi') == 'HRD' ) {
+            # code...
+            return redirect('/dashboard-hrd');
+        }elseif ($request->session()->get('divisi') == 'Karyawan' ) {
+            # code...
+            return redirect('/dashboard-karyawan');
+        };
+        $data['data']   = Users::find(Session::get('nik'));
+        return view('contents/main/manager/profile', $data);
+    }
 
     /**
      * Show the form for creating a new resource.

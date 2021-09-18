@@ -44,7 +44,13 @@
                         <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn"
                             data-dropdown-out="fadeOut">
                             <li>
-                                <a href="{{url('profil')}}">
+                                @if (Session::get('divisi') == 'Manager')
+                                    <a href="{{url('profil-manager')}}">
+                                @elseif (Session::get('divisi') == 'Karyawan')
+                                    <a href="{{url('profil')}}">
+                                @else
+                                    <a href="{{url('profil-hrd')}}">
+                                @endif
                                     <i class="feather icon-user"></i> Profile
                                 </a>
                             </li>

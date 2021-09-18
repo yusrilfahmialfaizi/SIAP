@@ -43,4 +43,6 @@ Route::get('absensi-harian-manager', [AbsensiController::class, 'absensiHariIni_
 Route::get('absensi-harian-hrd', [AbsensiController::class, 'absensiHariIni_hrd']);
 Route::get('izin-manager', [IzinController::class, 'izin_manager']);
 Route::get('izin-hrd', [IzinController::class, 'izin_hrd']);
+Route::get('profil-hrd', [ProfilController::class, 'profil_hrd']);
+Route::get('profil-manager', [ProfilController::class, 'profil_manager']);
 Route::post('ajaxAutoAbsen', [AbsensiController::class, 'ajax_autoabsen'])->name('ajaxAutoAbsen.post');
