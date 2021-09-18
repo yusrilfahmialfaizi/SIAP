@@ -30,34 +30,23 @@
                 <li class="user-profile header-notification">
                     <div class="dropdown-primary dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">
+                            @if (Session::get('jenis_kelamin') == "P")
+                            <img src="{{asset('assets/assets/images/user-profile/user-img.jpg')}}" class="img-radius" alt="User-Profile-Image">
+                            @else
                             <img src="{{asset('assets/assets/images/avatar-4.jpg')}}" class="img-radius" alt="User-Profile-Image">
-                            <span>John Doe</span>
+                            @endif
+                            <span>{{Session::get('nama')}}</span>
                             <i class="feather icon-chevron-down"></i>
                         </div>
                         <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn"
                             data-dropdown-out="fadeOut">
                             <li>
-                                <a href="#!">
-                                    <i class="feather icon-settings"></i> Settings
-                                </a>
-                            </li>
-                            <li>
-                                <a href="user-profile.html">
+                                <a href="{{url('profil')}}">
                                     <i class="feather icon-user"></i> Profile
                                 </a>
                             </li>
                             <li>
-                                <a href="email-inbox.html">
-                                    <i class="feather icon-mail"></i> My Messages
-                                </a>
-                            </li>
-                            <li>
-                                <a href="auth-lock-screen.html">
-                                    <i class="feather icon-lock"></i> Lock Screen
-                                </a>
-                            </li>
-                            <li>
-                                <a href="auth-normal-sign-in.html">
+                                <a href="/logout">
                                     <i class="feather icon-log-out"></i> Logout
                                 </a>
                             </li>

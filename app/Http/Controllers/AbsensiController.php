@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Absensi;
 use Session;
 
-class DashboardController extends Controller
+class AbsensiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,15 +18,23 @@ class DashboardController extends Controller
     public function index()
     {
         //
+        $data['record'] = Absensi::where('nik', Session::get('nik'))->whereDate('created_at', DB::raw('CURDATE()'))->get();
+        return view('contents/main/karyawan/absen_hari_ini', $data);
     }
 
-    public function dashboard_karyawan(){
-
-    
-        return view('contents/main/karyawan/dashboard');
-        // $ip = '125.166.117.206'; /* Static IP address */
-        // $details = GeoLocation::lookup($ip);
-        // \dd($details);
+    public function masuk(){
+        date_default_timezone_set('Asia/Jakarta');
+        $ip                     = '125.166.117.206'; /* Static IP address */
+        // $ip                 = $_SERVER['REMOTE_ADDR']; /* Dynamic IP address */
+        $details                = GeoLocation::lookup($ip);
+        $model                  = new Absensi;
+        $model->nik             = Session::get('nik');
+        $model->tanggal         = date("Y-m-d");
+        $model->jam_masuk       = date("H:i:s");
+        $model->longtd_masuk    = $details->getLongitude();
+        $model->latd_masuk      = $details->getLatitude();
+        $model->save();
+        return redirect('absensi');
     }
 
     /**
@@ -82,6 +90,18 @@ class DashboardController extends Controller
     public function update(Request $request, $id)
     {
         //
+        date_default_timezone_set('Asia/Jakarta');
+        $ip                     = '125.166.117.206'; /* Static IP address */
+        // $ip                 = $_SERVER['REMOTE_ADDR']; /* Dynamic IP address */
+        $details                = GeoLocation::lookup($ip);
+        $model                  = Absensi::find($id);
+        $model->nik             = Session::get('nik');
+        $model->tanggal         = date("Y-m-d");
+        $model->jam_pulang       = date("H:i:s");
+        $model->longtd_pulang    = $details->getLongitude();
+        $model->latd_pulang      = $details->getLatitude();
+        $model->save();
+        return redirect('absensi');
     }
 
     /**

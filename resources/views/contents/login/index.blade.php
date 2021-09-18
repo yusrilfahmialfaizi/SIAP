@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <!-- Authentication card start -->
-                <form action="{{ url('/action')}}" method="POST"
+                <form action="{{ url('/auth')}}" method="POST"
                 accept-charset="UTF-8" class="md-float-material form-material">
                     <div class="text-center">
                         {{-- <img src="{{asset('assets\assets\images\logo.png')}}" alt="logo.png"> --}}

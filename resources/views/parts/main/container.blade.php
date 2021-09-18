@@ -21,8 +21,8 @@
                                     </a>
                                     <ul class="pcoded-submenu">
                                         <li class="">
-                                            <a href="javascript:void(0)">
-                                                <span class="pcoded-mtext">Absen</span>
+                                            <a href="absensi">
+                                                <span class="pcoded-mtext">Hari Ini</span>
                                             </a>
                                         </li>
                                     </ul>

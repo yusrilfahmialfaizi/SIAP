@@ -2,31 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Adrianorosa\GeoLocation\GeoLocation;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Models\Absensi;
+use App\Models\Profil;
+use App\Models\Users;
 use Session;
 
-class DashboardController extends Controller
+class ProfilController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-    }
-
-    public function dashboard_karyawan(){
-
-    
-        return view('contents/main/karyawan/dashboard');
-        // $ip = '125.166.117.206'; /* Static IP address */
-        // $details = GeoLocation::lookup($ip);
-        // \dd($details);
+        $data['data']   = Users::find(Session::get('nik'));
+        return view('contents/main/karyawan/profile', $data);
     }
 
     /**
@@ -53,10 +45,10 @@ class DashboardController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Profil  $profil
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Profil $profil)
     {
         //
     }
@@ -64,10 +56,10 @@ class DashboardController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Profil  $profil
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Profil $profil)
     {
         //
     }
@@ -76,10 +68,10 @@ class DashboardController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Profil  $profil
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Profil $profil)
     {
         //
     }
@@ -87,10 +79,10 @@ class DashboardController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Profil  $profil
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Profil $profil)
     {
         //
     }

@@ -22,9 +22,27 @@
 <script src="{{asset('assets\assets\pages\chart\knob\jquery.knob.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets\assets\pages\chart\knob\knob-custom-chart.js')}}"></script>
 
+<!-- Select 2 js -->
+<script type="text/javascript" src="{{asset('assets\bower_components/select2/js/select2.full.min.js')}}"></script>
+<!-- Multiselect js -->
+<script type="text/javascript"
+    src="{{asset('assets\bower_components/bootstrap-multiselect/js/bootstrap-multiselect.js')}}">
+</script>
+<script type="text/javascript" src="{{asset('assets\bower_components/multiselect/js/jquery.multi-select.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets\assets/js/jquery.quicksearch.js')}}"></script>
+<!-- sweet alert framework -->
+<link rel="stylesheet" type="text/css" href="{{asset('assets/bower_components/sweetalert/css/sweetalert.css')}}">
+
 <!-- sweet alert js -->
+<script type="text/javascript" src="{{asset('assets/assets/js/sweetalert.js')}}"></script>
+<!-- sweet alert modal.js intialize js -->
+<!-- modalEffects js nifty modal window effects -->
+<script type="text/javascript" src="{{asset('assets/assets/js/modalEffects.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/assets/js/classie.js')}}"></script>
+
+{{-- <!-- sweet alert js -->
 <script type="text/javascript" src="{{asset('assets\bower_components\sweetalert\js\sweetalert.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets\assets\js\modal.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets\assets\js\modal.js')}}"></script> --}}
 
 <!-- data-table js -->
 <script src="{{asset('assets\bower_components\datatables.net\js\jquery.dataTables.min.js')}}"></script>
@@ -48,6 +66,7 @@
 <!-- custom js -->
 <script src="{{asset('assets\assets\js\vartical-layout.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets\assets\pages\dashboard\custom-dashboard.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/assets/pages/advance-elements/select2-custom.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets\assets\js\script.min.js')}}"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>

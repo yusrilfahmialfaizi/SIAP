@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Adrianorosa\GeoLocation\GeoLocation;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Models\Absensi;
-use Session;
 
-class DashboardController extends Controller
+class IzinControllers extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,15 +14,6 @@ class DashboardController extends Controller
     public function index()
     {
         //
-    }
-
-    public function dashboard_karyawan(){
-
-    
-        return view('contents/main/karyawan/dashboard');
-        // $ip = '125.166.117.206'; /* Static IP address */
-        // $details = GeoLocation::lookup($ip);
-        // \dd($details);
     }
 
     /**
