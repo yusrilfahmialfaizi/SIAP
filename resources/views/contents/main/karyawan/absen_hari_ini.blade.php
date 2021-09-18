@@ -82,12 +82,12 @@
                                                 <tr>
                                                     <td>{{$n++}}</td>
                                                     <td>{{$data->tanggal}}</td>
-                                                    @if ((date("H:i:s") >= date("H:i:s", strtotime($batas_masuk))))
+                                                    @if ((date("H:i:s",strtotime($data->jam_masuk)) >= date("H:i:s", strtotime($batas_masuk))))
                                                     <td>Absen invalid</td>
                                                     @else
                                                     <td>{{$data->jam_masuk}}</td>
                                                     @endif
-                                                    @if ((date("H:i:s") <= date("H:i:s", strtotime($batas_pulang))))
+                                                    @if ((date("H:i:s",strtotime($data->jam_pulang)) < date("H:i:s", strtotime($batas_pulang))))
                                                     <td>Absen invalid</td>
                                                     @else
                                                     <td>{{$data->jam_pulang}}</td>

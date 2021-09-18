@@ -25,6 +25,11 @@
                                                 <span class="pcoded-mtext">Hari Ini</span>
                                             </a>
                                         </li>
+                                        <li class="">
+                                            <a href="absensi-bulanan">
+                                                <span class="pcoded-mtext">Rekap Bulanan</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="pcoded-hasmenu">
@@ -34,21 +39,13 @@
                                     </a>
                                     <ul class="pcoded-submenu">
                                         <li class=" ">
-                                            <a href="javascript:void(0)">
+                                            <a href="{{url('izin/create')}}">
                                                 <span class="pcoded-mtext">Izin</span>
                                             </a>
                                         </li>
-                                    </ul>
-                                </li>
-                                <li class="pcoded-hasmenu">
-                                    <a href="javascript:void(0)">
-                                        <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
-                                        <span class="pcoded-mtext">Cuti</span>
-                                    </a>
-                                    <ul class="pcoded-submenu">
                                         <li class=" ">
-                                            <a href="widget-statistic.html">
-                                                <span class="pcoded-mtext">Cuti</span>
+                                            <a href="{{url('izin')}}">
+                                                <span class="pcoded-mtext">Riwayat Izin</span>
                                             </a>
                                         </li>
                                     </ul>

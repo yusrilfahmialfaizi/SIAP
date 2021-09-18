@@ -27,6 +27,9 @@
                 </li>
             </ul>
             <ul class="nav-right">
+                <li class="header-notification">
+                    <div id="clock" ></div>
+                </li>
                 <li class="user-profile header-notification">
                     <div class="dropdown-primary dropdown">
                         <div class="dropdown-toggle" data-toggle="dropdown">

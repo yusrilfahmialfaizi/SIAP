@@ -59,7 +59,7 @@ class ProfilController extends Controller
      * @param  \App\Models\Profil  $profil
      * @return \Illuminate\Http\Response
      */
-    public function edit(Profil $profil)
+    public function edit($id)
     {
         //
     }
@@ -71,9 +71,18 @@ class ProfilController extends Controller
      * @param  \App\Models\Profil  $profil
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Profil $profil)
+    public function update(Request $request, $id)
     {
         //
+        $model                  = Users::find($id);
+        $model->nik             = $request->nik;
+        $model->nama            = $request->nama;
+        $model->jenis_kelamin   = $request->jenis_kelamin;
+        $model->tempat_lahir    = $request->tempat_lahir;
+        $model->tanggal_lahir   = $request->tanggal_lahir;
+        $model->alamat          = $request->alamat;
+        $model->save();
+        return redirect('profil');
     }
 
     /**

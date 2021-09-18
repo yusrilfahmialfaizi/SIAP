@@ -41,8 +41,6 @@ class LoginController extends Controller
         if (Auth::check()){
             $users = Users::where('username', $username)
                 ->first();
-                # code...
-
                 $sesi = [
                     'nik'           => $users->nik,
                     'nama'          => $users->nama,

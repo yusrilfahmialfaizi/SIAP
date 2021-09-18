@@ -81,39 +81,80 @@
     gtag('config', 'UA-23581568-13');
 </script>
 
-{{-- <script>
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  var firebaseConfig = {
-    apiKey: "AIzaSyAfolJxQxt38Dj6sLFGVwFxUa5B2qALBuI",
-    authDomain: "jamurtiram-a1bc2.firebaseapp.com",
-    databaseURL: "https://jamurtiram-a1bc2-default-rtdb.firebaseio.com",
-    projectId: "jamurtiram-a1bc2",
-    storageBucket: "jamurtiram-a1bc2.appspot.com",
-    messagingSenderId: "420391507616",
-    appId: "1:420391507616:web:5c591251e33b470061dbc5",
-    measurementId: "G-E6MV5SJJ4C"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  // firebase.analytics();
+<script>
+  $(document).ready(function() {
+    function showTime() {
+        var today         = new Date();
+        var curr_date     = today.getDate();
+        var curr_month    = today.getMonth();
+        var curr_year     = today.getFullYear();
+        var curr_hour     = today.getHours();
+        var curr_minute   = today.getMinutes();
+        var curr_second   = today.getSeconds();
+        curr_hour         = checkTime(curr_hour);
+        curr_minute       = checkTime(curr_minute);
+        curr_second       = checkTime(curr_second);
+        var weekday = new Array(7);
+        weekday[0] = "Sunday";
+        weekday[1] = "Monday";
+        weekday[2] = "Tuesday";
+        weekday[3] = "Wednesday";
+        weekday[4] = "Thursday";
+        weekday[5] = "Friday";
+        weekday[6] = "Saturday";
 
-  // var dt = dbRef.ref().child("dataset");
-  // dt.on('value', snp => console.log(snp.val()));
+        var n = weekday[today.getDay()];
+        document.getElementById('clock').innerHTML  = n + ", " +curr_date + "/"+ curr_month + "/" + curr_year + " " + curr_hour + ":" + curr_minute + ":" + curr_second + " ";
+    }
+    
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+    setInterval(showTime, 500);
 
-  for (let x = 20; x < 22; x++) {
-    console.log(x);
-    firebase.database().ref('dataset/'+x+'/humidity').once('value', function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-        var childKey = childSnapshot.key;//this is id 
-        var dbRef = firebase.database();
-        console.log("dataset/"+x+"/humidity/"+childKey);
-        var data = dbRef.ref().child("dataset/"+x+"/humidity/"+childKey);
-        data.on('value', snap => console.log(snap.val()));
-        console.log(data);
-      });
-    });
+    function auto_absent() {
+      var today         = new Date();
+      var batas_hari    = "18:35:00";
+      var curr_hour     = today.getHours();
+      var curr_minute   = today.getMinutes();
+      var curr_second   = today.getSeconds();
+      curr_hour         = checkJam(curr_hour);
+      curr_minute       = checkJam(curr_minute);
+      curr_second       = checkJam(curr_second);
+      var jam           = curr_hour + ":" + curr_minute + ":" + curr_second;
+      var weekday = new Array(7);
+        weekday[0] = "Sunday";
+        weekday[1] = "Monday";
+        weekday[2] = "Tuesday";
+        weekday[3] = "Wednesday";
+        weekday[4] = "Thursday";
+        weekday[5] = "Friday";
+        weekday[6] = "Saturday";
 
-  }
-
-</script> --}}
+        var n = weekday[today.getDay()];
+      if (jam == batas_hari && n != 'Sunday') {
+        $.ajax({
+          type: "POST",
+          url:"{{ route('ajaxAutoAbsen.post') }}",
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]')
+                  .attr('content')
+          },
+          success: function (response) {
+            location.reload();
+          }
+        })
+      }
+    }
+    function checkJam(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+    setInterval(auto_absent, 1000);
+  })
+</script>

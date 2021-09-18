@@ -77,7 +77,7 @@
                                 <ul class="nav nav-tabs md-tabs tab-timeline" role="tablist" id="mytab">
                                     <li class="nav-item">
                                         <a class="nav-link active" data-toggle="tab" href="#personal"
-                                            role="tab">Personal Info</a>
+                                            role="tab">Info</a>
                                         <div class="slide"></div>
                                     </li>
                                 </ul>
@@ -91,10 +91,74 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h5 class="card-header-text">About</h5>
-                                            {{-- <button id="edit-btn" type="button"
+                                            <button id="edit-btn" type="button" data-toggle="modal" data-target="#modalEdit"
                                                 class="btn btn-sm btn-primary waves-effect waves-light f-right">
                                                 <i class="icofont icofont-edit"></i>
-                                            </button> --}}
+                                            </button>
+                                        </div>
+                                        <div class="modal fade" id="modalEdit" tabindex="-1"
+                                            role="dialog">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <form method="POST" action="{{ url('profil/'. $data->nik)}}"accept-charset="UTF-8">
+                                                            {{ csrf_field() }}
+                                                        <div class="modal-body">
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-2 col-form-label">NIK</label>
+                                                                <div class="col-sm-4">
+                                                                    <input type="hidden" name="_method" id="_method"
+                                                                        class="form-control" value="PATCH"
+                                                                        required>
+                                                                    <input type="number" name="nik" id="nik"
+                                                                        class="form-control" placeholder="Contoh : 350xxxx" value="{{$data->nik}}"
+                                                                        required>
+                                                                </div>
+                                                                <label class="col-sm-2 col-form-label">Nama Karyawan</label>
+                                                                <div class="col-sm-4">
+                                                                    <input type="text" name="nama" id="nama"
+                                                                        class="form-control" placeholder="Contoh : Udin" value="{{$data->nama}}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-2 col-form-label">Jenis Kelamin</label>
+                                                                    <div class="col-sm-4">
+                                                                        <select name="jenis_kelamin" id="jenis_kelamin"
+                                                                        class="form-control" required>
+                                                                        <option value="&nbsp">--Pilih--</option>
+                                                                        <option @if($data->jenis_kelamin =='L') selected @endif value="L">Laki-Laki</option>
+                                                                        <option @if($data->jenis_kelamin =='P') selected @endif value="P">Perempuan</option>
+                                                                    </select>
+                                                                </div>
+                                                                <label class="col-sm-2 col-form-label">Tempat Lahir</label>
+                                                                <div class="col-sm-4">
+                                                                    <input type="text" name="tempat_lahir" id="tempat_lahir"
+                                                                        class="form-control" placeholder="Contoh : Surabaya" value="{{$data->tempat_lahir}}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-2 col-form-label">Tanggal Lahir</label>
+                                                                <div class="col-sm-4">
+                                                                    <input type="date" name="tanggal_lahir" id="tanggal_lahir"
+                                                                        class="form-control" placeholder="Contoh : Udin" value="{{$data->tanggal_lahir}}"
+                                                                        required>
+                                                                </div>
+                                                                <label class="col-sm-2 col-form-label">Alamat</label>
+                                                                <div class="col-sm-4">
+                                                                    <textarea rows="5" cols="5" id="alamat" name="alamat" class="form-control" placeholder="Jl. Ahmadxx" required>{{$data->alamat}}</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button"
+                                                            class="btn btn-default waves-effect "
+                                                            data-dismiss="modal">Close</button>
+                                                            <input type="submit" class="btn btn-success waves-effect " value="Simpan">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="card-block">
                                             <div class="view-info">

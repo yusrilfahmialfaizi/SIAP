@@ -6,6 +6,7 @@ use Adrianorosa\GeoLocation\GeoLocation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Absensi;
+use App\Models\Users;
 use Session;
 
 class AbsensiController extends Controller
@@ -20,6 +21,18 @@ class AbsensiController extends Controller
         //
         $data['record'] = Absensi::where('nik', Session::get('nik'))->whereDate('created_at', DB::raw('CURDATE()'))->get();
         return view('contents/main/karyawan/absen_hari_ini', $data);
+    }
+
+    public function bulanan(Request $request){
+        $record         = $request->bulan ? 
+                Absensi::where('nik', Session::get('nik'))
+                ->whereYear('created_at', '=', $request->tahun)
+                ->whereMonth('created_at', '=', $request->bulan)
+                ->get() : 
+                Absensi::where('nik', Session::get('nik'))
+                ->get();
+        $tahun          = Absensi::distinct()->get(['tanggal']);
+        return view('contents/main/karyawan/absen_bulanan', compact('record', 'tahun'));
     }
 
     public function masuk(){
@@ -44,6 +57,23 @@ class AbsensiController extends Controller
                 'message'   => 'sukses'
             ]);
         }
+    }
+    // method untuk otomatis absen jika karyawan tidak melakukan absensi
+    function ajax_autoabsen(){
+        date_default_timezone_set('Asia/Jakarta');
+        $users          = Users::all();
+        foreach ($users as $value) {
+            $result     = Absensi::where('nik',$value->nik)->whereDate('created_at', DB::raw('CURDATE()'))->first();
+            if (!$result) {
+                $model          = new Absensi;
+                $model->nik     = $value->nik;
+                $model->tanggal = date("Y-m-d");
+                $model->save();
+            }
+        }
+        return response()->json([
+                'message'   => 'sukses'
+        ]);
     }
 
     /**
@@ -120,7 +150,6 @@ class AbsensiController extends Controller
                 'message'   => 'sukses'
             ]);
         }
-        // return redirect('absensi');
     }
 
     /**
