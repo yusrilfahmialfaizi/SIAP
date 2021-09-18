@@ -188,6 +188,27 @@ class AbsensiController extends Controller
     public function store(Request $request)
     {
         //
+        date_default_timezone_set('Asia/Jakarta');
+        $ip                     = '125.166.117.206'; /* Static IP address */
+        // $ip                 = $_SERVER['REMOTE_ADDR']; /* Dynamic IP address */
+        $details                = GeoLocation::lookup($ip);
+        $batas_absen            = "17:00:00";
+        $model                  = new Absensi;
+        $model->nik             = Session::get('nik');
+        $model->tanggal         = date("Y-m-d");
+        $model->jam_pulang      = date("H:i:s");
+        $model->longtd_pulang   = $details->getLongitude();
+        $model->latd_pulang     = $details->getLatitude();
+        $model->save();
+        if ((date("H:i:s") <= date("H:i:s", strtotime($batas_absen)))) {
+            return response()->json([
+                'message'   => 'invalid'
+            ]);
+        }else{
+            return response()->json([
+                'message'   => 'sukses'
+            ]);
+        }
     }
 
     /**
@@ -254,5 +275,10 @@ class AbsensiController extends Controller
     public function destroy($id)
     {
         //
+        $model = Absensi::find($id);
+        $model->delete();
+        return response()->json([
+            'message'   => 'sukses'
+        ]);
     }
 }

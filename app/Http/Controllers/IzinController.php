@@ -172,5 +172,10 @@ class IzinController extends Controller
     public function destroy($id)
     {
         //
+        $model = Izin::find($id);
+        $model->delete();
+        return response()->json([
+            'message'   => 'sukses'
+        ]);
     }
 }
